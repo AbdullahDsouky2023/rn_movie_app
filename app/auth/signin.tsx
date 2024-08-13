@@ -1,15 +1,23 @@
 
 // app/auth/signin.tsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import tw from 'twrnc'
 import HeaderComponent from '../../components/auth/signin/HeaderComponent';
 import SiginFormComponent from '../../components/auth/signin/SiginFormComponent';
 import { Text, View } from 'react-native'
+import auth, { signInWithPhoneNumber} from '@react-native-firebase/auth'
 export default function SignIn() {
   const router = useRouter();
+  useEffect(()=>{
 
+    auth().settings.appVerificationDisabledForTesting = true
+   auth().verifyPhoneNumber('+201144254129', )
+     .on('state_changed', (phoneAuthSnapshot) => {
+     console.log('Snapshot state: ', phoneAuthSnapshot.state);
+      });
+  })
   return (
     <SafeAreaView style={tw`flex-1 bg-white px-8 `}>
 

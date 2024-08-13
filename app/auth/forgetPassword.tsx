@@ -31,6 +31,7 @@ export default function ForgetPasswordScreen() {
         setIsLoading(true)
         ResetPaswordSchema.parse(formData);
       console.log('Form is valid. Signing in with:', formData);
+      router.replace('/auth/createPassword')
       // Add your sign-in logic here
     } catch (error) {
       if (error instanceof z.ZodError) {

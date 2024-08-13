@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "react_native_movie_app",
+    "name": "EgyMovies",
     "slug": "react_native_movie_app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -13,19 +13,34 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.abdullah.movieApp",
+      "googleServicesFile":"./GoogleService-Info.plist"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.njik.react_native_movie_app",
+      "googleServicesFile":"./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
+      
     "plugins": [
-      "expo-router"
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth",
+      "expo-router",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ]
     ]
   }
 }

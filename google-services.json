@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "45934948539",
+    "project_id": "homeservice4-d79c9",
+    "storage_bucket": "homeservice4-d79c9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:45934948539:android:c83ada5bcd44ee1ee8f99e",
+        "android_client_info": {
+          "package_name": "com.njik.react_native_movie_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "45934948539-7aems4kio7p2biif9cok6cchklqinffi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.njik.react_native_movie_app",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "45934948539-72ssk9v56fa43jqivcccu9bi6dhcpndp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJtTtXlUL-S5L3FdU4fZRabs2Z8nwc2vM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "45934948539-72ssk9v56fa43jqivcccu9bi6dhcpndp.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "45934948539-82eegvm1kkfudqvs8hghgbsj00u9llp0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.abdullah.movieApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

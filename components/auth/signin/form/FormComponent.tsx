@@ -60,7 +60,7 @@ const FormComponent = (props: Props) => {
         onChangeText={handleChange('password')}
         error={errors.password}
       />
-      <Button loading={isLoading} title='Continue' onPress={() => handleSignIn()} />
+      <Button style={{marginTop:10}} loading={isLoading} title='Continue' onPress={() => handleSignIn()} />
   </View>
   )
 }

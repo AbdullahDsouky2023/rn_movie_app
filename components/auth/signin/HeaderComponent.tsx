@@ -10,14 +10,19 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 
 
 type Props = {
-    title:string
+    title:string,
+    back?:false
 }
 
-const HeaderComponent:React.FC<Props> = ({title}) => {
+const HeaderComponent:React.FC<Props> = ({title,back =true}) => {
   const router = useRouter()
   return (
      <View style={tw`flex flex-row justify-between pt-10 items-center`}>
+    {
+      !back && 
     <AntDesign onPress={()=>router.back()} name="arrowleft" size={RFPercentage(3.3)} color="black" />
+    }
+
     <Text style={{fontSize:RFPercentage(3),fontWeight:'500',textAlign:'center'}}>{title}</Text>
     <View/>
     </View>
