@@ -7,8 +7,8 @@ const { width , height } = Dimensions.get('screen')
 type Props = {
   onPress:()=>void,
   title:string,
-  loading:boolean,
-  style:  ViewStyle
+  loading?:boolean,
+  style?:  ViewStyle
 }
 
 const Button:React.FC<Props> = ({

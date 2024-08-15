@@ -12,7 +12,7 @@ type Props = {}
 const SiginFormComponent = (props: Props) => {
 
   return (
-    <View style={tw`mt-5`}>
+    <View style={tw``}>
    <FormComponent/>
     </View>
   )

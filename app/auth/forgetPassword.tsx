@@ -49,7 +49,7 @@ export default function ForgetPasswordScreen() {
   };
   return (
     <SafeAreaView style={tw`flex-1 bg-white px-8 gap-4 `}>
-      <HeaderComponent title={'Forget Password'} />
+      <HeaderComponent title={'Forget Password'} back={false}/>
         <Text style={tw`mt-12 text-slate-400 mb-4`}>
         Input your linked email to your Movees account below, we’ll send you a link
         </Text>

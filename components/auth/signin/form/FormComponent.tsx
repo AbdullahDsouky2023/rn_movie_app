@@ -1,10 +1,12 @@
-import { View, Text } from 'react-native'
+import { View, Text, Alert } from 'react-native'
 import React, { useState } from 'react'
 import InputComponent from './InputComponent'
 import { signInSchema, SignInSchemaType } from '../../../../app/schemas/signInSchema'
 import { z } from 'zod'
 import Button from '../../../Button'
 import tw from 'twrnc'
+import auth from '@react-native-firebase/auth'
+import { router } from 'expo-router'
 type Props = {}
 
 const FormComponent = (props: Props) => {
@@ -22,11 +24,16 @@ const FormComponent = (props: Props) => {
         }
       };
     
-      const handleSignIn = () => {
+      const handleSignIn = async() => {
         try {
             setIsLoading(true)
           signInSchema.parse(formData);
           console.log('Form is valid. Signing in with:', formData);
+          const res = await auth().signInWithEmailAndPassword(formData.email,formData.password)
+          if(res){
+            console.log('te')
+            router.replace('/home')
+          }
           // Add your sign-in logic here
         } catch (error) {
           if (error instanceof z.ZodError) {
@@ -36,14 +43,21 @@ const FormComponent = (props: Props) => {
               return acc;
             }, {} as Partial<SignInSchemaType>);
             setErrors(newErrors);
+          }else {
+            console.log('error' ,error)
+            Alert.alert('Invalid Email Or Password')
           }
         }finally{
             setIsLoading(false)
+            setFormData({
+              email:'',
+              password:''
+            })
 
         }
       };
   return (
-    <View style={tw`mt-10 flex  gap-4`}>
+    <View style={tw`mt-5 flex  gap-2`}>
 
     <InputComponent
         label="Email"

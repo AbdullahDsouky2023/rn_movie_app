@@ -7,8 +7,9 @@ import { z } from 'zod';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Button from '../../../Button';
 import { RFPercentage } from 'react-native-responsive-fontsize';
-import { Link } from 'expo-router';
-
+import { Link, router } from 'expo-router';
+import auth from '@react-native-firebase/auth'
+import { storage } from '../../../../app/_layout';
 type Props = {}
 
 const SignUpFormComponent = (props: Props) => {
@@ -20,12 +21,12 @@ const SignUpFormComponent = (props: Props) => {
       });
       const [errors, setErrors] = useState<Partial<SignUpSchemaType>>({});
       const [isLoading,setIsLoading] = useState(false)
-      const handleSignUp = () => {
+      const handleSignUp = async() => {
         try {
             setIsLoading(true)
           SignUpSchemaObject.parse(formData);
-          console.log('Form is valid. Signing in with:', formData);
-          // Add your sign-in logic here
+         await  CreateUserFirebase(formData)
+          // Add your sign-in logic hereg
         } catch (error) {
           if (error instanceof z.ZodError) {
             const newErrors = error.errors.reduce((acc, curr) => {
@@ -40,7 +41,20 @@ const SignUpFormComponent = (props: Props) => {
 
         }
       };
-
+      const CreateUserFirebase = async(formData:SignUpSchemaType)=>{
+        try {
+           const user =  await auth().createUserWithEmailAndPassword(formData.email,formData.password)
+           if(user){
+            await user.user.updateProfile({
+              displayName:formData.birthday
+            })
+            storage.set('user', JSON.stringify(user));
+            router.replace('/home')
+           }
+        } catch (error) {
+          console.log('createing new user',error)
+        }
+      }
       const handleChange = (field: keyof SignUpSchemaType) => (value: string) => {
         setFormData(prev => ({ ...prev, [field]: value }));
         // Clear error when user starts typing

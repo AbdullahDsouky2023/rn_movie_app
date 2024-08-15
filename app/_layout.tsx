@@ -1,8 +1,12 @@
 import { View, Text, SafeAreaView } from 'react-native'
-import React from 'react'
-import { Stack } from 'expo-router'
+import React, { useEffect } from 'react'
+import { Stack, useRouter } from 'expo-router'
+import { MMKV } from 'react-native-mmkv'
+export const storage = new MMKV()
 
 const _layout = () => {
+  const router = useRouter()
+ 
   return (
     <Stack
     screenOptions={{

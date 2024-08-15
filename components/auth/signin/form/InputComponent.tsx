@@ -42,7 +42,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
           onFocus={() => isDate && setShowCalendar(true)}
 
           onChangeText={onChangeText}
-          style={tw`border p-4 rounded-full border-slate-400 p-3`}
+          style={tw`border p-4 rounded-full border-slate-400 p-5`}
         />
         {isPassword && (
           <Pressable

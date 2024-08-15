@@ -1,7 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { View, SafeAreaView, Image, FlatList, Dimensions } from 'react-native';
 import tw from 'twrnc';
-import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 import { useEffect, useState } from 'react';
 import Slide from '../../components/onboarding/Slide';
 

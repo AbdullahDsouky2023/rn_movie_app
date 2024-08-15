@@ -4,6 +4,7 @@
     "slug": "react_native_movie_app",
     "version": "1.0.0",
     "orientation": "portrait",
+    
     "icon": "./assets/icon.png",
     "scheme": "mvovie",
     "userInterfaceStyle": "light",
@@ -15,7 +16,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.abdullah.movieApp",
-      "googleServicesFile":"./GoogleService-Info.plist"
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
       "adaptiveIcon": {
@@ -23,12 +24,11 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.njik.react_native_movie_app",
-      "googleServicesFile":"./google-services.json"
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-      
     "plugins": [
       "@react-native-firebase/app",
       "@react-native-firebase/auth",
@@ -41,6 +41,14 @@
           }
         }
       ]
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "2c75cedc-342f-455f-a931-9ef6e43bc84c"
+      }
+    }
   }
 }
