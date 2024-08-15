@@ -6,11 +6,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import tw from 'twrnc'
 import HeaderComponent from '../../components/auth/signin/HeaderComponent';
 import SiginFormComponent from '../../components/auth/signin/SiginFormComponent';
-import { Text, View } from 'react-native'
+import { Alert, Text, View } from 'react-native'
 import InputComponent from '../../components/auth/signin/form/InputComponent';
 import { ResetPassworSchemaType, ResetPaswordSchema } from '../schemas/signInSchema';
 import { z } from 'zod';
 import Button from '../../components/Button';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+
 export default function ForgetPasswordScreen() {
   const router = useRouter();
   const [formData, setFormData] = useState<ResetPassworSchemaType>({
@@ -26,14 +28,59 @@ export default function ForgetPasswordScreen() {
     }
   };
 
-  const handleSignIn = () => {
+  async function checkUserExists(email: string): Promise<boolean> {
+    try {
+      await auth().signInWithEmailAndPassword(formData.email, 'dummyPassword');
+      // If we reach here, the user exists (but this should not happen with a dummy password)
+      return true;
+    } catch (error) {
+      if (error.code === 'auth/user-not-found') {
+        return false;
+      }
+      if (error.code === 'auth/wrong-password') {
+        // User exists, but password is wrong (which is expected)ab
+        return true;
+      }
+      // Handle other errors
+      console.error("Error checking user existence:", error);
+      return false;
+    }
+  }
+  const handleResetPassword = async() => {
     try {
         setIsLoading(true)
         ResetPaswordSchema.parse(formData);
-      console.log('Form is valid. Signing in with:', formData);
-      router.replace('/auth/createPassword')
+        try {
+          const userExists = await checkUserExists(formData.email);
+        if (!userExists) {
+          Alert.alert('Error', 'No account found with this email address');
+          return;
+        }
+          await auth().sendPasswordResetEmail(formData.email);
+          Alert.alert('Success', 'Password reset email sent. Check your inbox.');
+          router.push('/auth/createPassword')
+        } catch (error:any) {
+         console.log('Error', error.message);
+        }
       // Add your sign-in logic here
     } catch (error) {
+      const firebaseError = error as FirebaseAuthTypes.NativeFirebaseAuthError;
+      let errorMessage = 'An error occurred. Please try again.';
+
+      switch (firebaseError.code) {
+        case 'auth/invalid-email':
+          errorMessage = 'The email address is invalid.';
+          break;
+        case 'auth/user-not-found':
+          errorMessage = 'No account found with this email address.';
+          break;
+        case 'auth/too-many-requests':
+          errorMessage = 'Too many requests. Please try again later.';
+          break;
+        // Add more cases as needed
+      }
+      Alert.alert('Error', errorMessage);
+
       if (error instanceof z.ZodError) {
         const newErrors = error.errors.reduce((acc, curr) => {
           const field = curr.path[0] as keyof ResetPassworSchemaType;
@@ -61,7 +108,7 @@ export default function ForgetPasswordScreen() {
         onChangeText={handleChange('email')}
         error={errors.email}
       />
-      <Button loading={isLoading} title='Continue' style={{marginTop:20}} onPress={() => handleSignIn()} />    
+      <Button loading={isLoading} title='Continue' style={{marginTop:20}} onPress={() => handleResetPassword()} />    
 
     </SafeAreaView>
   );

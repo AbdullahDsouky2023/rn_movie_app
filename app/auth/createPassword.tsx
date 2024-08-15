@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView } from 'react-native'
+import { View, Text, SafeAreaView, Alert } from 'react-native'
 import React, { useState } from 'react'
 import tw from 'twrnc'
 import HeaderComponent from '../../components/auth/signin/HeaderComponent'
@@ -7,6 +7,7 @@ import { CreateNewPasswordSchema, CreateNewPasswordSchemaType } from '../schemas
 import { z } from 'zod'
 import { useRouter } from 'expo-router'
 import Button from '../../components/Button'
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
 type Props = {}
 
 const createPassword = (props: Props) => {
@@ -25,11 +26,41 @@ const createPassword = (props: Props) => {
     }
   };
 
-  const handleSignIn = () => {
+  const handleSignIn = async() => {
     try {
         setIsLoading(true)
         CreateNewPasswordSchema.parse(formData);
       console.log('Form is valid. Signing in with:', formData);
+      
+    try {
+      // Get the current user
+      const user = auth().currentUser;
+      
+      if (user) {
+        // Update the password
+        await user.updatePassword(formData.password);
+        Alert.alert('Success', 'Password has been reset successfully');
+        router.replace('/'); // Navigate to home or login screen
+      } else {
+        Alert.alert('Error', 'No user is currently signed in');
+      }
+    } catch (error) {
+      const firebaseError = error as FirebaseAuthTypes.NativeFirebaseAuthError;
+      let errorMessage = 'An error occurred. Please try again.';
+
+      switch (firebaseError.code) {
+        case 'auth/invalid-email':
+          errorMessage = 'The email address is invalid.';
+          break;
+        case 'auth/user-not-found':
+          errorMessage = 'No account found with this email address.';
+          break;
+        case 'auth/too-many-requests':
+          errorMessage = 'Too many requests. Please try again later.';
+          break;
+        // Add more cases as needed
+      }
+      Alert.alert('Error', errorMessage);    }
       // router.replace('/auth/createPassword')
       // Add your sign-in logic here
     } catch (error) {

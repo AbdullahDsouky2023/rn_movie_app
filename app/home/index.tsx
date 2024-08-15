@@ -13,7 +13,7 @@ const index = () => {
       <Button onPress={()=>{
         auth().signOut()
         storage.delete('user')
-        router.replace('/auth/index')
+        router.replace('splash')
       }} title='Sign out '/>
        
     </SafeAreaView>

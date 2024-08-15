@@ -39,6 +39,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
           textContentType={textContentType}
           secureTextEntry={isPassword && !showPassword}
           value={value}
+          autoCapitalize='none'
           onFocus={() => isDate && setShowCalendar(true)}
 
           onChangeText={onChangeText}

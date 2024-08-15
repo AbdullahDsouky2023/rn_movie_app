@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from 'react-native'
+import { View, Text, ScrollView, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { SignUpSchemaObject, SignUpSchemaType } from '../../../../app/schemas/SiginUpSchema';
 import InputComponent from './InputComponent';
@@ -8,8 +8,9 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import Button from '../../../Button';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { Link, router } from 'expo-router';
-import auth from '@react-native-firebase/auth'
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import { storage } from '../../../../app/_layout';
+import firestore from '@react-native-firebase/firestore'
 type Props = {}
 
 const SignUpFormComponent = (props: Props) => {
@@ -36,6 +37,32 @@ const SignUpFormComponent = (props: Props) => {
             }, {} as Partial<SignUpSchemaType>);
             setErrors(newErrors);
           }
+          const firebaseError = error as FirebaseAuthTypes.NativeFirebaseAuthError;
+          let errorMessage = 'An error occurred during signup. Please try again.';
+    
+          switch (firebaseError.code) {
+            case 'auth/email-already-in-use':
+              errorMessage = 'This email address is already in use.';
+              break;
+            case 'auth/invalid-email':
+              errorMessage = 'The email address is invalid.';
+              break;
+            case 'auth/operation-not-allowed':
+              errorMessage = 'Email/password accounts are not enabled.';
+              break;
+            case 'auth/weak-password':
+              errorMessage = 'The password is too weak. Please choose a stronger password.';
+              break;
+            case 'auth/network-request-failed':
+              errorMessage = 'Network error. Please check your internet connection.';
+              break;
+            case 'auth/too-many-requests':
+              errorMessage = 'Too many requests. Please try again later.';
+              break;
+            // Add more cases as needed
+          }
+          Alert.alert('Error', errorMessage);
+
         }finally{
             setIsLoading(false)
 
@@ -49,11 +76,40 @@ const SignUpFormComponent = (props: Props) => {
               displayName:formData.birthday
             })
             storage.set('user', JSON.stringify(user));
+            await firestore().collection('users').doc(user?.user?.uid).set({
+              name: user?.user.displayName,
+              email: user?.user.email,
+              createdAt: firestore.FieldValue.serverTimestamp(),
+              // Add any other custom fields you need
+            });
             router.replace('/home')
            }
         } catch (error) {
-          console.log('createing new user',error)
-        }
+          const firebaseError = error as FirebaseAuthTypes.NativeFirebaseAuthError;
+          let errorMessage = 'An error occurred during signup. Please try again.';
+    
+          switch (firebaseError.code) {
+            case 'auth/email-already-in-use':
+              errorMessage = 'This email address is already in use.';
+              break;
+            case 'auth/invalid-email':
+              errorMessage = 'The email address is invalid.';
+              break;
+            case 'auth/operation-not-allowed':
+              errorMessage = 'Email/password accounts are not enabled.';
+              break;
+            case 'auth/weak-password':
+              errorMessage = 'The password is too weak. Please choose a stronger password.';
+              break;
+            case 'auth/network-request-failed':
+              errorMessage = 'Network error. Please check your internet connection.';
+              break;
+            case 'auth/too-many-requests':
+              errorMessage = 'Too many requests. Please try again later.';
+              break;
+            // Add more cases as needed
+          }
+          Alert.alert('Error', errorMessage);        }
       }
       const handleChange = (field: keyof SignUpSchemaType) => (value: string) => {
         setFormData(prev => ({ ...prev, [field]: value }));
