@@ -38,7 +38,7 @@ const SignUpFormComponent = (props: Props) => {
             setErrors(newErrors);
           }
           const firebaseError = error as FirebaseAuthTypes.NativeFirebaseAuthError;
-          let errorMessage = 'An error occurred during signup. Please try again.';
+          let errorMessage = '';
     
           switch (firebaseError.code) {
             case 'auth/email-already-in-use':
@@ -61,7 +61,7 @@ const SignUpFormComponent = (props: Props) => {
               break;
             // Add more cases as needed
           }
-          Alert.alert('Error', errorMessage);
+      if(errorMessage)    Alert.alert('Error', errorMessage);
 
         }finally{
             setIsLoading(false)
@@ -80,6 +80,7 @@ const SignUpFormComponent = (props: Props) => {
               name: user?.user.displayName,
               email: user?.user.email,
               createdAt: firestore.FieldValue.serverTimestamp(),
+              method:'email'
               // Add any other custom fields you need
             });
             router.replace('/home')

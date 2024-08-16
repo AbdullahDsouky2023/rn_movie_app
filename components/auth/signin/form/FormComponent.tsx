@@ -7,6 +7,7 @@ import Button from '../../../Button'
 import tw from 'twrnc'
 import auth from '@react-native-firebase/auth'
 import { router } from 'expo-router'
+import { checkUserExists } from '../../../../utils/auth/helpers'
 type Props = {}
 
 const FormComponent = (props: Props) => {
@@ -28,12 +29,19 @@ const FormComponent = (props: Props) => {
         try {
             setIsLoading(true)
           signInSchema.parse(formData);
-          console.log('Form is valid. Signing in with:', formData);
-          const res = await auth().signInWithEmailAndPassword(formData.email,formData.password)
-          if(res){
-            console.log('te')
-            router.replace('/home')
-          }
+          const { exist,methodRegister} =   await    checkUserExists(formData.email)
+          console.log('Form is valid. Signing in with:', exist,methodRegister);
+      if(exist && methodRegister === 'email'){
+
+        const res = await auth().signInWithEmailAndPassword(formData.email,formData.password)
+        if(res){
+          console.log('te')
+          router.replace('/home')
+        }
+      }else {
+        Alert.alert('Invalid Email')
+
+      }
           // Add your sign-in logic here
         } catch (error) {
           if (error instanceof z.ZodError) {
@@ -49,10 +57,10 @@ const FormComponent = (props: Props) => {
           }
         }finally{
             setIsLoading(false)
-            setFormData({
-              email:'',
-              password:''
-            })
+            // setFormData({
+            //   email:'',
+            //   password:''
+            // })
 
         }
       };

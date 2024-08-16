@@ -8,7 +8,7 @@
     "scheme": "mvovie",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/Splash2.png",
+      "image": "./assets/auth/Splash2.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

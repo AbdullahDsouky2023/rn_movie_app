@@ -12,6 +12,12 @@ import { ResetPassworSchemaType, ResetPaswordSchema } from '../schemas/signInSch
 import { z } from 'zod';
 import Button from '../../components/Button';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore'
+
+type UserExistenceResult = {
+  exist: boolean;
+  methodRegister?: 'google' | 'email' | null;
+};
 
 export default function ForgetPasswordScreen() {
   const router = useRouter();
@@ -28,22 +34,24 @@ export default function ForgetPasswordScreen() {
     }
   };
 
-  async function checkUserExists(email: string): Promise<boolean> {
+  async function checkUserExists(email: string): Promise<UserExistenceResult> {
     try {
-      await auth().signInWithEmailAndPassword(formData.email, 'dummyPassword');
-      // If we reach here, the user exists (but this should not happen with a dummy password)
-      return true;
+      const usersRef = firestore().collection('users');
+      const query = await usersRef.where('email', '==', email).get();
+  
+      if (query.empty) {
+        return { exist: false, methodRegister: null };
+      } else {
+        const userDoc = query.docs[0];
+        const userData = userDoc.data();
+        return {
+          exist: true,
+          methodRegister: userData.method as 'google' | 'email' | null
+        };
+      }
     } catch (error) {
-      if (error.code === 'auth/user-not-found') {
-        return false;
-      }
-      if (error.code === 'auth/wrong-password') {
-        // User exists, but password is wrong (which is expected)ab
-        return true;
-      }
-      // Handle other errors
-      console.error("Error checking user existence:", error);
-      return false;
+      console.error("Error checking user existence in Firestore:", error);
+      throw error;
     }
   }
   const handleResetPassword = async() => {
@@ -51,14 +59,20 @@ export default function ForgetPasswordScreen() {
         setIsLoading(true)
         ResetPaswordSchema.parse(formData);
         try {
-          const userExists = await checkUserExists(formData.email);
-        if (!userExists) {
+          const {methodRegister,exist} = await checkUserExists(formData.email);
+        if (!exist) {
           Alert.alert('Error', 'No account found with this email address');
           return;
         }
           await auth().sendPasswordResetEmail(formData.email);
-          Alert.alert('Success', 'Password reset email sent. Check your inbox.');
-          router.push('/auth/createPassword')
+          if(methodRegister === 'email'){
+            router.push('/auth/createPassword')
+            Alert.alert('Success', 'Password reset email sent. Check your inbox.');
+          }else {
+            // Alert.alert('Oppps', 'Password reset email sent. Check your inbox.');
+            router.push('/splash')
+
+          }
         } catch (error:any) {
          console.log('Error', error.message);
         }
