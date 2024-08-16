@@ -14,6 +14,7 @@ export default function Index() {
   const [user, setUser] = useState(null);
   useEffect(() => {
     const unsubscribe =  auth().onAuthStateChanged((currentUser) => {
+      console.log('changed')
       if (currentUser) {
         // User is signed in
         const userData:any = {

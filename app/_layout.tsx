@@ -19,6 +19,8 @@ const _layout = () => {
         <Stack.Screen name='splash/index'/>
         <Stack.Screen name='auth/index'/>
         <Stack.Screen name='createProfile/index'/>
+        <Stack.Screen name='createPin'/>
+        <Stack.Screen name='familySharing'/>
     </Stack>
   )
 }

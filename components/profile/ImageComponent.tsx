@@ -61,7 +61,16 @@ const ImageComponent: React.FC<ImagePickerComponentProps> = ({onImageUrlChange})
 
   return (
     <Pressable onPress={selectImage}>
-     <Image source={require('../../assets/profile/Avatar/user.png')}
+    {imageUri ? 
+     <Image source={{uri: imageUri}}
+style={[{
+    height:100,
+    width:100,
+    borderRadius:'50%',
+    alignSelf:'center',
+    overflow:'hidden'
+},tw`rounded-full`]}
+/>:    <Image source={require('../../assets/profile/Avatar/user.png')}
 style={{
     height:100,
     width:100,
@@ -69,8 +78,9 @@ style={{
     alignSelf:'center'
 }}
 />
-{imageUri && <Image source={{ uri: imageUri }} style={{ width: 100, height: 100,borderRadius:'50%',overflow:'hidden' }} />}
-<Button title="Upload Image" onPress={uploadImage} disabled={!imageUri} />
+ 
+
+}
 <View style={tw`bg-violet-500 w-[35px] h-[35px] self-center rounded-full flex items-center justify-center top-[-30px] left-[30px]`}>
 <AntDesign name="edit" size={22} color="white" />
     </View>
