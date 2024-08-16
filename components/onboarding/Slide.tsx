@@ -35,6 +35,7 @@ const Slide: React.FC<SlideProps> = ({ setActiveIndex, item, headerText, content
       router.replace('/auth/signin');
     } catch (error) {
       console.error('Error saving onboarding status:', error);
+      router.replace('/splash');
     }
   };
   const handleContinue = () => {

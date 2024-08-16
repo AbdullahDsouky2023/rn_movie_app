@@ -19,7 +19,7 @@ export default function Index() {
         const userData:any = {
           uid: currentUser.uid,
           email: currentUser.email,
-          birthday: currentUser.displayName, // Assuming we stored birthday in displayName
+          displayName: currentUser.displayName, // Assuming we stored birthday in displayName
         };
         setUser(userData);
         storage.set('user', JSON.stringify(userData));
@@ -33,8 +33,10 @@ export default function Index() {
     // Check if user data exists in MMKV on app start
     const storedUser = storage.getString('user');
     if (storedUser) {
-      console.log('the user ',storedUser)
-      setUser(JSON.parse(storedUser));
+      const user = JSON.parse(storedUser)
+      console.log('the usefr ',JSON.parse(storedUser).displayName)
+      setUser(user);
+      
       
     }
     
@@ -62,10 +64,16 @@ export default function Index() {
       // console.log('hasSeenOnboarding',hasSeenOnboarding)
       setTimeout(() => {
         if (!hasSeenOnboarding) {
-          router.replace('/onboarding');
+          router.replace('/createProfile');
         } else {
           if(userData){
-            router.replace('/home');
+            if(!userData.profiles){
+
+              router.replace('/createProfile');
+            }else {
+
+              router.replace('/home');
+            }
 
           }else {
 

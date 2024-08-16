@@ -25,7 +25,7 @@ const onboardingPages: OnboardingPage[] = [
   },
   {
     headerText: 'Complete list of movie2s',
-    image: require('../../assets/onboarding/onboarding2.png'), // Assuming you have this image
+    image: require('../../assets/onboarding/onboarding3.png'), // Assuming you have this image
     contentText: 'Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incididunt sed do eiusmod tempor incididunt'
   }
 ];
@@ -35,6 +35,7 @@ const Index: React.FC = () => {
   
   return (
     <SafeAreaView style={tw`bg-white h-full`}>
+      <StatusBar style='light'/>
       <FlatList
         data={[onboardingPages[activeIndex]]}
         horizontal
