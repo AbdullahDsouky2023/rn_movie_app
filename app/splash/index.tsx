@@ -65,20 +65,20 @@ export default function Index() {
       // console.log('hasSeenOnboarding',hasSeenOnboarding)
       setTimeout(() => {
         if (!hasSeenOnboarding) {
-          router.replace('/createProfile');
+          router.replace('/(tabs)');
         } else {
           if(userData){
             if(!userData.profiles){
 
-              router.replace('/createProfile');
+              router.replace('/(tabs)');
             }else {
 
-              router.replace('/home');
+              router.replace('/(tabs)/index');
             }
 
           }else {
 
-            router.replace('/auth/signin');
+            router.replace('/(tabs)/index');
           }
         }
       }, 2000); // Wait for 2 seconds to show the splash screen
