@@ -11,7 +11,7 @@ type Props = {}
 const HomeHeader = (props: Props) => {
   
   return (
-    <View style={tw`flex flex-row items-center gap-2 justify-between mt-4`}>
+    <View style={tw`flex flex-row items-center gap-2 justify-between pb-4`}>
         <View style={tw`flex flex-row items-center gap-2 `}>
 
       <Avatar source={{uri:auth().currentUser?.photoURL }} containerStyle={{

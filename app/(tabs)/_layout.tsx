@@ -11,7 +11,7 @@ import downloadIcon from '../../assets/tabs/download.png';
 import download2Icon from '../../assets/tabs/download2.png';
 import user2Icon from '../../assets/tabs/user2.png';
 import { LinearGradient } from 'expo-linear-gradient';
-// import { BlurView } from 'expo-blur';
+import { BlurView } from 'expo-blur';
 import tw from 'twrnc';
 export default function TabLayout() {
   return (
@@ -27,18 +27,18 @@ export default function TabLayout() {
           // backgroundColor:'red',
           // borderRadius:500
         },
-        // tabBarBackground: () => (
-        //   // <BlurView
-        //   //   tint="light"
-        //   //   intensity={50}
-        //   //   style={tw`absolute inset-0 rounded-2xl overflow-hidden`}
-        //   // >
-        //     <LinearGradient
-        //       colors={['rgba(255, 255, 255, 0.5)', 'rgba(255, 255, 255, 0.3)']}
-        //       style={tw`absolute inset-0`}
-        //     />
-        //   // </BlurView>
-        // ),
+        tabBarBackground: () => (
+          <BlurView
+            tint="light"
+            intensity={50}
+            style={tw`absolute inset-0 rounded-2xl overflow-hidden`}
+          >
+            <LinearGradient
+              colors={['rgba(255, 255, 255, 0.5)', 'rgba(255, 255, 255, 0.3)']}
+              style={tw`absolute inset-0`}
+            />
+           </BlurView>
+        ),
 
       })}
     >
@@ -54,7 +54,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="search"
         options={{
-          title: 'Search',
+          headerShown:false,
           tabBarIcon: ({ color, focused }) => {
             return <Image source={focused ? search2Icon : searchIcon} style={{ width: 24, height: 50,paddingTop:10,objectFit:'contain' }} />;
           },
