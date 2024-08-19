@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions, FlatList } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, FlatList, TouchableWithoutFeedback, Pressable } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import tw from 'twrnc';
 import { getLatestMovies, Movie } from '../../utils/home/helpers';
 import Button from '../Button';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { Skeleton } from '@rneui/base'
+import { router } from 'expo-router';
 const { width } = Dimensions.get('window');
 const ITEM_WIDTH = width - 40; // Adjust this value as needed
 
@@ -30,7 +31,11 @@ export default function SliderComponent() {
     };
 
     const renderSlide = useCallback(({ item: movie }) => (
-        <View style={[tw`  rounded-lg overflow-hidden  `, { width: ITEM_WIDTH }]}>
+        <Pressable
+        onPress={() => router.push({
+            pathname: "/movieDetails",
+            params: { movie: JSON.stringify(movie) }
+          })}         style={[tw`  rounded-lg overflow-hidden  `, { width: ITEM_WIDTH }]}>
             <Image
                 source={{ uri: `https://image.tmdb.org/t/p/w500${movie.backdrop_path}` }}
                 style={[tw`h-[200px] w-full  rounded-md`, { objectFit: 'cover' }]}
@@ -60,7 +65,7 @@ export default function SliderComponent() {
                     textStyle={tw`text-sm text-violet-400 font-bold`}
                 />
             </View>
-        </View>
+        </Pressable>
     ), []);
 
     const onViewableItemsChanged = useCallback(({ viewableItems }) => {

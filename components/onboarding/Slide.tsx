@@ -5,7 +5,9 @@ import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-na
 import { useEffect } from 'react';
 import { useRouter} from 'expo-router'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { storage } from '../../app/splash';
+import { LinearGradient } from 'expo-linear-gradient';
+import { BlurView } from 'expo-blur';
+import { storage } from '../../app/_layout';
 interface SlideProps {
   headerText: string;
   contentText: string;
@@ -31,7 +33,7 @@ const Slide: React.FC<SlideProps> = ({ setActiveIndex, item, headerText, content
   }));
   const handleFinishOnboarding = async () => {
     try {
-      storage.set('hasSeenOnboarding', true)
+      storage.set('hasSeenOnboarding', 'true')
       router.replace('/auth/signin');
     } catch (error) {
       console.error('Error saving onboarding status:', error);
@@ -48,11 +50,26 @@ const Slide: React.FC<SlideProps> = ({ setActiveIndex, item, headerText, content
   };
 
   return (
-    <SafeAreaView style={tw`bg-white h-full`}>
-      <View style={tw`bg-white h-full`}>
+    <SafeAreaView style={tw``}>
+      <View style={tw``}>
         <Animated.View style={[tw`my-8`, animatedViewStyles]}>
-          <Animated.Image source={image} style={[tw`h-[372px] w-[20rem] rounded self-center`, animatedViewStyles]} />
+          {
+            isLastSlide ?
+            <View style={tw`bg-white absolute px-8`}> 
+            <BlurView intensity={10} style={tw`absolute bottom-10 left-0 right-0 h-1/2 z-10 `} />
+          <LinearGradient
+            colors={['rgba(255,255,255,0)', 'rgba(255,255,255,0.98)']}
+            style={tw`absolute bottom-0 left-0 right-0 h-[60%] z-10 opacity-90 bg-white`}
+/>
+                          <Animated.Image source={image} style={[tw`  h-[750px] w-[350px] rounded self-center`, animatedViewStyles]} />
+            </View>
+            : <Animated.Image source={image} style={[tw`h-[372px] w-[20rem] rounded self-center`, animatedViewStyles]} />
+          }
         </Animated.View>
+          
+        <View style={tw`${isLastSlide ? 'bottom-[-350px]' : ''} `}>
+
+          
         <Animated.View style={animatedViewStyles}>
           <Animated.Text style={[tw`text-2xl font-semibold text-center text-slate-700`, animatedViewStyles]}>
             {headerText}
@@ -71,6 +88,7 @@ const Slide: React.FC<SlideProps> = ({ setActiveIndex, item, headerText, content
             Continue
           </Text>
         </Pressable>
+        </View>
       </View>
     </SafeAreaView>
   );

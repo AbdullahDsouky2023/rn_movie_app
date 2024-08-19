@@ -82,7 +82,7 @@ const SignInWithProviders = (props: Props) => {
           email: user?.user.email,
           // Add any other custom fields you need
         });
-        router.replace('/home')
+        router.replace('/(tabs)')
       }
     } catch (error) {
       console.log('error google aut h ', error)
@@ -107,7 +107,7 @@ const SignInWithProviders = (props: Props) => {
       <Pressable
         onPress={() => onFacebookButtonPress().then((user) => {
           console.log('facebook login user', user)
-          router.replace('/home')
+          router.replace('/(tabs)')
         }).catch((err) => {
           console.error('error ', err)
         })

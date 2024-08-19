@@ -72,7 +72,7 @@ const FavouriteCategories: React.FC = () => {
         style={tw`mt-4`}
         onPress={()=>{
             console.log('sekecte',selectedCategories)
-            router.push('/tabs/home')
+            router.replace('/(tabs)')
         }} />
       }
       </View>

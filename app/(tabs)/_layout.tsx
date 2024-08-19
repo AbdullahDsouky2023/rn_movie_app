@@ -19,12 +19,12 @@ export default function TabLayout() {
       screenOptions={({ route }) => ({
         tabBarShowLabel:false,
         tabBarStyle:{
-          paddingVertical:30,
+          paddingVertical:0,
           display:'flex',
           alignItems:'center',
           justifyContent:'center',
           // marginBottosm:-45,
-          // backgroundColor:'red',
+          // backgroundCol1or:'red',
           // borderRadius:500
         },
         tabBarBackground: () => (
@@ -63,7 +63,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="download"
         options={{
-          title: 'Download',
+headerShown:false,
           tabBarIcon: ({ color, focused }) => {
             return <Image source={focused ? download2Icon : downloadIcon} style={{ width: 24, height: 50,paddingTop:10,objectFit:'contain' }} />;
           },
@@ -72,7 +72,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="profile"
         options={{
-          title: 'Profile',
+          headerShown:false,
           tabBarIcon: ({ color, focused }) => {
             return <Image source={focused ? user2Icon : userIcon} style={{ width: 24, height: 50,paddingTop:10,objectFit:'contain' }} />;
           },

@@ -36,7 +36,7 @@ const FormComponent = (props: Props) => {
         const res = await auth().signInWithEmailAndPassword(formData.email,formData.password)
         if(res){
           console.log('te')
-          router.replace('/home')
+          router.replace('/(tabs)')
         }
       }else {
         Alert.alert('Invalid Email')

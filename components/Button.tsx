@@ -6,11 +6,12 @@ const { width , height } = Dimensions.get('screen')
 
 type Props = {
   onPress:()=>void,
-  title:string,
+  title?:string,
   loading?:boolean,
   style?:  ViewStyle,
   textStyle?:ViewStyle,
-  disabled?:boolean
+  disabled?:boolean,
+  Icon?:React.ReactNode
 }
 
 const Button:React.FC<Props> = ({
@@ -19,7 +20,8 @@ const Button:React.FC<Props> = ({
   loading,
   style,
   textStyle,
-disabled
+disabled,
+Icon
 }) => {
   return (
     <Pressable
@@ -31,9 +33,12 @@ disabled
       {loading? 
       <ActivityIndicator color={'white'} size={RFPercentage(3)} />
         :
+        <View style={tw`flex flex-row items-center justify-center gap-2`}>
+       { Icon}
       <Text style={[tw`text-white text-center text-2xl flex items-center`,textStyle]}>
         {title}
       </Text>
+        </View>
       }
     </View>
   </Pressable>

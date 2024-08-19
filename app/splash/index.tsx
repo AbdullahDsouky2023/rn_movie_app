@@ -62,23 +62,24 @@ export default function Index() {
     try {
       const hasSeenOnboarding = storage.getBoolean('hasSeenOnboarding')
       const userData:any = storage.getString('user')
-      // console.log('hasSeenOnboarding',hasSeenOnboarding)
+      const pin:any = storage.getString('pin')
+      console.log('hasSeenOnboarding',hasSeenOnboarding,userData)
       setTimeout(() => {
         if (!hasSeenOnboarding) {
-          router.replace('/(tabs)');
+          router.replace('/onboarding');
         } else {
           if(userData){
-            if(!userData.profiles){
+            if(!pin){
 
-              router.replace('/(tabs)');
+              router.replace('/createPin');
             }else {
 
-              router.replace('/(tabs)/index');
+              router.replace('/(tabs)');
             }
 
           }else {
 
-            router.replace('/(tabs)/index');
+            router.replace('/auth/signin');
           }
         }
       }, 2000); // Wait for 2 seconds to show the splash screen

@@ -25,7 +25,7 @@ const onboardingPages: OnboardingPage[] = [
   },
   {
     headerText: 'Complete list of movie2s',
-    image: require('../../assets/onboarding/onboarding3.png'), // Assuming you have this image
+    image: require('../../assets/onboarding/Front.png'), // Assuming you have this image
     contentText: 'Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incididunt sed do eiusmod tempor incididunt'
   }
 ];

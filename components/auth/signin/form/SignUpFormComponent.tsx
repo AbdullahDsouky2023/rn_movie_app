@@ -83,8 +83,8 @@ const SignUpFormComponent = (props: Props) => {
               method:'email'
               // Add any other custom fields you need
             });
-            router.replace('/home')
-           }
+            router.replace('/(tabs)')
+          }
         } catch (error) {
           const firebaseError = error as FirebaseAuthTypes.NativeFirebaseAuthError;
           let errorMessage = 'An error occurred during signup. Please try again.';

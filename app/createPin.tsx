@@ -7,6 +7,7 @@ import Button from '../components/Button'
 import OTPTextView from 'react-native-otp-textinput';
 import OtpInput from '../components/profile/OtpInput'
 import { router } from 'expo-router'
+import { storage } from './_layout'
 type Props = {}
 
 
@@ -16,7 +17,10 @@ const createPin = (props: Props) => {
     <SafeAreaView style={tw`bg-white h-full px-4`}>
       <HeaderComponent title='Create Pin' back={false}/>
       <KeyboardAvoidingView behavior='padding'>
-<OtpInput onComplete={(e)=>console.log('hello',e)}/>
+<OtpInput onComplete={(e)=>{
+  storage.set('pin',e)
+  
+}}/>
           </KeyboardAvoidingView>
       <Button title='Create Pin' onPress={()=>router.push('familySharing')}/>
     </SafeAreaView>

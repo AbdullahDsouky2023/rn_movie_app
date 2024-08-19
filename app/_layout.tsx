@@ -23,6 +23,7 @@ const _layout = () => {
         <Stack.Screen name='familySharing'/>
         <Stack.Screen name='faveCategories'/>
         <Stack.Screen name='(tabs)'/>
+        <Stack.Screen name='movieDetails'/>
     </Stack>
   )
 }

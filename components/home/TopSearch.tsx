@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Image, Pressable } from 'react-native';
+import { View, Text, FlatList, Image, Pressable, TouchableWithoutFeedback } from 'react-native';
 import { getTopSearchedMovies, Movie } from '../../utils/home/helpers';
 import tw from 'twrnc';
 import { RFPercentage } from 'react-native-responsive-fontsize';
@@ -23,14 +23,22 @@ const TopSearchMovies = ({outSide=true,searchQuery}:props) => {
   }, []);
 
   const renderMovieItem = ({ item }: { item: Movie }) => (
-    <View style={tw`flex flex-row mb-4  h-[130px] px-1 items-center`}>
+    <TouchableWithoutFeedback 
+    onPress={() => router.push({
+      pathname: "/movieDetails",
+      params: { movie: JSON.stringify(item) }}
+    )}
+
+ >
+      <View    style={tw`flex flex-row mb-4  h-[130px] px-1 items-center`}>
+
       <Image
         style={tw`h-[130px] w-[170px] rounded-[14px]`}
         source={{ uri: `https://image.tmdb.org/t/p/w500${item.backdrop_path}` }}
-      />
+        />
       <View style={tw`flex-1  max-h-[50px] ml-4 `}>
         <Text style={[tw`text-sm font-bold max-w-[120px]`,{
-            fontSize:RFPercentage(1.8)
+          fontSize:RFPercentage(1.8)
         }]}>{item.title}</Text>
         <Text style={tw`text-sm text-gray-600 mt-1 max-w-[120px]`}>
           {item?.genre_ids?.map(genreIdToString).join(', ')}
@@ -42,7 +50,8 @@ const TopSearchMovies = ({outSide=true,searchQuery}:props) => {
         style={tw`h-[29px] w-[29px]`}
         />
       </Pressable>
-    </View>
+        </View>
+    </TouchableWithoutFeedback>
   );
   const LoadingSkeleton = 
   () => (
